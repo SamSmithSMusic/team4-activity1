@@ -37,7 +37,6 @@ export async function findProductById(id) {
 
     return product; // Return the found product
   } catch (error) {
-    // console.error("Error fetching product:", error.message || error);
     throw error; // Re-throw the error to handle it in the caller
   }
 }
