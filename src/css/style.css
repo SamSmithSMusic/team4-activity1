@@ -224,7 +224,7 @@ button {
   transform: scale(0.9);
 }
 
-#addToCart.clicked .add{
+#addToCart.clicked .add {
   animation: txt1Anim 1.5s ease-in-out forwards;
 }
 
@@ -251,8 +251,8 @@ button {
   animation: cartAnim 1.5s ease-in-out forwards;
 }
 
-@keyframes cartAnim{
-  0%{
+@keyframes cartAnim {
+  0% {
     left: -10%;
   }
   40%,
@@ -278,17 +278,17 @@ button {
 }
 
 @keyframes tentAnim {
-  0%, 
+  0%,
   40% {
-    top: -20%
+    top: -20%;
   }
   60% {
     top: 40%;
     left: 52%;
   }
   100% {
-    top:40%;
-    left: 112%
+    top: 40%;
+    left: 112%;
   }
 }
 
