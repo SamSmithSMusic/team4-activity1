@@ -8,7 +8,9 @@ export async function loadProductDetails(productId) {
     renderProductDetails();
 
     let cartButton = document.querySelector("#addToCart");
-    cartButton.addEventListener("click",addProductToCart(product))
+    // cartButton.addEventListener("click",addProductToCart(product))
+    cartButton.addEventListener("click", () => addProductToCart());
+    // This ensures that addProductToCart is only executed when the button is clicked
 }
 
 export function addProductToCart() {
