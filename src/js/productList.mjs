@@ -26,35 +26,16 @@ function getSelectedTents(products) {
 
 // Main function to display the product list
 export default async function productList(selector, category) {
-    // console.log("Selector:", selector);
-    // console.log("Category:", category);
 
     // get the element we will insert the list into from the selector
     const el = document.querySelector(selector);
-    // Check if the selector exists in the HTML
-    // console.log("Selected element:", el);
-
-    // if (!el) {
-    //     console.error("Error: Element not found for selector:", selector);
-    //     return;
-    // }
-
      // Fetch data
     const products = await getData(category);
-    // console.log("Fetched products:", products);
-
-    // if (!Array.isArray(products) || products.length === 0) {
-    //     console.error("Error: No products found or data is not an array.");
-    //     return;
-    // }
 
     // Use map() and filter() to get only the 4 tents
     const selectedTents = getSelectedTents(products);
-    // console.log("Selected tents:", selectedTents);
 
     // Render product list
-    // console.log("Rendering products into:", el);
     renderListWithTemplate(productCardTemplate, el, selectedTents);
-    // console.log("Product list rendering complete");
 
 }
