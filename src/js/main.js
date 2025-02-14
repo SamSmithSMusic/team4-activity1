@@ -1,6 +1,3 @@
-import productList from "./productList.mjs"; // Default function - Don't need  {} when importing
-import { loadHeaderFooter } from "./utils.mjs";
-
-loadHeaderFooter();
+import productList from "./productList.mjs";
 
 productList(".product-list", "tents");
