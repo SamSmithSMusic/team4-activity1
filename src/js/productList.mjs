@@ -1,12 +1,12 @@
 // Import necessary functions from other files
-import { getData } from "./productData.mjs";
+import { getProductsByCategory } from "./productData.mjs";
 import { renderListWithTemplate } from "./utils.mjs";
 
 function productCardTemplate(product) {
     return `<li class="product-card">
-      <a href="product_pages/index.html?product=${product.Id}">
+      <a href="/product_pages/index.html?product=${product.Id}">
       <img
-        src="${product.Image}"
+        src="${product.Image.PrimaryMedium}"
         alt="Image of ${product.Name}"
       />
       <h3 class="card__brand">${product.Brand.Name}</h3>
@@ -31,6 +31,7 @@ export default async function productList(selector, category) {
 
     // get the element we will insert the list into from the selector
     const el = document.querySelector(selector);
+    
     // Check if the selector exists in the HTML
     // console.log("Selected element:", el);
 
@@ -40,7 +41,9 @@ export default async function productList(selector, category) {
     // }
 
      // Fetch data
-    const products = await getData(category);
+    // const products = await getData(category);
+    const products = await getProductsByCategory(category);
+    
     // console.log("Fetched products:", products);
 
     // if (!Array.isArray(products) || products.length === 0) {
@@ -56,5 +59,5 @@ export default async function productList(selector, category) {
     // console.log("Rendering products into:", el);
     renderListWithTemplate(productCardTemplate, el, selectedTents);
     // console.log("Product list rendering complete");
-
+    document.querySelector(".title").innerHTML = category;
 }
