@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 import productList from "./productList.mjs";
 import {getParam} from "./utils.mjs";
 

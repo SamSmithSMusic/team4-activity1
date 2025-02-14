@@ -6,7 +6,7 @@ function productCardTemplate(product) {
     return `<li class="product-card">
       <a href="/product_pages/index.html?product=${product.Id}">
       <img
-        src="${product.Image.PrimaryMedium}"
+        src="${product.Images.PrimaryMedium}"
         alt="Image of ${product.Name}"
       />
       <h3 class="card__brand">${product.Brand.Name}</h3>
@@ -57,7 +57,7 @@ export default async function productList(selector, category) {
 
     // Render product list
     // console.log("Rendering products into:", el);
-    renderListWithTemplate(productCardTemplate, el, selectedTents);
+    renderListWithTemplate(productCardTemplate, el, products);
     // console.log("Product list rendering complete");
     document.querySelector(".title").innerHTML = category;
 }
