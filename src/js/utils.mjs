@@ -90,3 +90,28 @@ export async function loadHeaderFooter() {
   renderWithTemplate(headerTemplateFn, headerEl);
   renderWithTemplate(footerTemplateFn, footerEl);
 }
+
+// Apply discounts dynamically based on product conditions
+export function applyDiscounts(products) {
+  return products.map(product => {
+      let discount = 0;
+
+      // Apply a 20% discount to item 985PR
+      if (product.Id === "985PR") {
+          discount = 0.20;
+      }
+      // Apply a 10% discount to all tents
+      else if (product.Name.toLowerCase().includes("tent")) {
+          discount = 0.10;
+      }
+
+      // If there's a discount, update ListPrice and FinalPrice
+      if (discount > 0) {
+          product.ListPrice = product.FinalPrice;
+          product.FinalPrice = +(product.FinalPrice * (1 - discount)).toFixed(2);
+      }
+
+      return product;
+  });
+}
+

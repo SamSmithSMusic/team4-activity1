@@ -1,3 +1,5 @@
+import { applyDiscounts } from "./utils.mjs";
+
 function convertToJson(res) {
   if (res.ok) {
     return res.json();

@@ -1,8 +1,8 @@
-import { getLocalStorage } from "./utils.mjs";
-import { loadHeaderFooter } from "./utils.mjs";
+import { getLocalStorage, loadHeaderFooter } from "./utils.mjs";
 
 loadHeaderFooter(); // Load header and footer
 
+// Render the cart contents
 function renderCartContents() {
   // Check if so-cart doesn't exist in localStorage before using .map()
   const cartItems = getLocalStorage("so-cart") || [];
@@ -18,23 +18,22 @@ function renderCartContents() {
   document.querySelector(".product-list").innerHTML = htmlItems.join("");
 }
 
+// Generate cart item HTML
 function cartItemTemplate(item) {
-  const newItem = `<li class="cart-card divider">
-  <a href="#" class="cart-card__image">
-    <img
-      src="${item.Image}"
-      alt="${item.Name}"
-    />
-  </a>
-  <a href="#">
-    <h2 class="card__name">${item.Name}</h2>
-  </a>
-  <p class="cart-card__color">${item.Colors[0].ColorName}</p>
-  <p class="cart-card__quantity">qty: 1</p>
-  <p class="cart-card__price">$${item.FinalPrice}</p>
-</li>`;
+  return `<li class="cart-card divider">
+      <a href="#" class="cart-card__image">
+          <img src="${item.Image}" alt="${item.Name}" />
+      </a>
+      <a href="#">
+          <h2 class="card__name">${item.Name}</h2>
+      </a>
+      <p class="cart-card__color">${item.Colors[0].ColorName}</p>
+      <p class="cart-card__quantity">qty: 1</p>
 
-  return newItem;
+      <!-- Final Price should be in red and bold -->
+      <p class="cart-card__price final-price">$${item.FinalPrice.toFixed(2)}</p>
+  </li>`;
 }
 
+// Execute function to render cart
 renderCartContents();
