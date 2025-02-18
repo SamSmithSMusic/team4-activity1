@@ -26,14 +26,26 @@
         <h3 id="productName"></h3>
         <h2 class="divider" id="productNameWithoutBrand"></h2>
         <img id="productImage" class="divider" src="" alt="" />
-        <p class="product-card__price" id="productFinalPrice"></p>
+
+        <div class="price-container">
+          <span id="saleBadge" class="sale-badge" style="display: none"
+            >Sale</span
+          >
+          <p
+            id="productListPrice"
+            class="product-card__list-price"
+            style="display: none"
+          ></p>
+          <p id="productFinalPrice" class="product-card__price final-price"></p>
+        </div>
+
         <p class="product__color" id="productColorName"></p>
         <p class="product__description" id="productDescriptionHtmlSimple"></p>
+
         <div class="product-detail__add">
           <button id="addToCart" data-id="">
             <span class="add">Add to Cart</span>
             <i class="fas fa-shopping-cart cart"></i>
-            <i class="fas fa-solid fa-campground tent"></i>
             <span class="added">Added</span>
           </button>
         </div>
