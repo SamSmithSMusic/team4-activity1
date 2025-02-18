@@ -1,4 +1,7 @@
 import { getLocalStorage } from "./utils.mjs";
+import { loadHeaderFooter } from "./utils.mjs";
+
+loadHeaderFooter(); // Load header and footer
 
 function renderCartContents() {
   // Check if so-cart doesn't exist in localStorage before using .map()
