@@ -1,5 +1,6 @@
 import { getLocalStorage, loadHeaderFooter } from "./utils.mjs";
 
+
 loadHeaderFooter(); // Load header and footer
 
 // Render the cart contents
