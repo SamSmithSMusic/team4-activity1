@@ -1,5 +1,9 @@
-import { getLocalStorage } from "./utils.mjs";
+import { getLocalStorage, loadHeaderFooter } from "./utils.mjs";
 
+
+loadHeaderFooter(); // Load header and footer
+
+// Render the cart contents
 function renderCartContents() {
   // Check if so-cart doesn't exist in localStorage before using .map()
   const cartItems = getLocalStorage("so-cart") || [];
@@ -15,6 +19,7 @@ function renderCartContents() {
   document.querySelector(".product-list").innerHTML = htmlItems.join("");
 }
 
+// Generate cart item HTML
 function cartItemTemplate(item) {
   const newItem = `<li class="cart-card divider">
   <a href="#" class="cart-card__image">
@@ -34,4 +39,5 @@ function cartItemTemplate(item) {
   return newItem;
 }
 
+// Execute function to render cart
 renderCartContents();

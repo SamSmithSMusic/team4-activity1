@@ -1,4 +1,5 @@
 // Import necessary functions from other files
+
 import { getProductsByCategory } from "./productData.mjs";
 import { renderListWithTemplate } from "./utils.mjs";
 
@@ -11,9 +12,20 @@ function productCardTemplate(product) {
       />
       <h3 class="card__brand">${product.Brand.Name}</h3>
       <h2 class="card__name">${product.NameWithoutBrand}</h2>
-      <p class="product-card__price">$${product.FinalPrice}</p></a>
-    </li>`;
-  }
+      
+      <!-- Display Sale Badge if applicable -->
+      ${product.ListPrice !== product.FinalPrice ? 
+          `<span class="sale-badge">Sale</span>` : ""}
+
+      <!-- Display List Price with strikethrough if there is a discount -->
+      ${product.ListPrice !== product.FinalPrice ? 
+          `<p class="product-card__list-price"><s>$${product.ListPrice.toFixed(2)}</s></p>` : ""}
+      
+      <!-- Display Final Price in red and bold -->
+      <p class="product-card__price final-price">$${product.FinalPrice.toFixed(2)}</p>
+    </a>
+  </li>`;
+}
 
 // Filtering Function
 function getSelectedTents(products) {
@@ -26,38 +38,10 @@ function getSelectedTents(products) {
 
 // Main function to display the product list
 export default async function productList(selector, category) {
-    // console.log("Selector:", selector);
-    // console.log("Category:", category);
-
-    // get the element we will insert the list into from the selector
-    const el = document.querySelector(selector);
-    
-    // Check if the selector exists in the HTML
-    // console.log("Selected element:", el);
-
-    // if (!el) {
-    //     console.error("Error: Element not found for selector:", selector);
-    //     return;
-    // }
-
-     // Fetch data
-    // const products = await getData(category);
-    const products = await getProductsByCategory(category);
-    
-    // console.log("Fetched products:", products);
-
-    // if (!Array.isArray(products) || products.length === 0) {
-    //     console.error("Error: No products found or data is not an array.");
-    //     return;
-    // }
-
-    // Use map() and filter() to get only the 4 tents
-    const selectedTents = getSelectedTents(products);
-    // console.log("Selected tents:", selectedTents);
-
-    // Render product list
-    // console.log("Rendering products into:", el);
-    renderListWithTemplate(productCardTemplate, el, products);
-    // console.log("Product list rendering complete");
-    document.querySelector(".title").innerHTML = category;
+  const el = document.querySelector(selector);
+  let products = await getProductsByCategory(category);
+  products = applyDiscounts(products); // Ensure discounts are applied
+  const selectedTents = getSelectedTents(products);
+  renderListWithTemplate(productCardTemplate, el, selectedTents);
+  document.querySelector(".title").innerHTML = category;
 }

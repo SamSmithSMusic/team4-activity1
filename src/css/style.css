@@ -204,6 +204,32 @@ button {
   width: 100%;
 }
 
+/* Sale Badge styling */
+.sale-badge {
+  background-color: #d9534f;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-size: 0.8em;
+  font-weight: bold;
+  display: inline-block;
+  margin-bottom: 5px;
+}
+
+/* Final Price styling (sale price) */
+.final-price {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #d9534f;
+}
+
+/* List Price styling (original price with strikethrough) */
+.product-card__list-price {
+  text-decoration: line-through;
+  color: gray;
+  font-size: 0.9em;
+}
+
 /* Start cart list card styles */
 .cart-card {
   display: grid;
