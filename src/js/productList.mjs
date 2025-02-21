@@ -1,7 +1,7 @@
 // Import necessary functions from other files
 
 import { getProductsByCategory } from "./productData.mjs";
-import { renderListWithTemplate } from "./utils.mjs";
+import { renderListWithTemplate, applyDiscounts } from "./utils.mjs";
 
 function productCardTemplate(product) {
     return `<li class="product-card">
