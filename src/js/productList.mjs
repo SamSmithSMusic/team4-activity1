@@ -1,11 +1,15 @@
 // Import necessary functions from other files
-import { getData } from "./productData.mjs";
-import { renderListWithTemplate, applyDiscounts } from "./utils.mjs";
+
+import { getProductsByCategory } from "./productData.mjs";
+import { renderListWithTemplate } from "./utils.mjs";
 
 function productCardTemplate(product) {
-  return `<li class="product-card">
-    <a href="product_pages/index.html?product=${product.Id}">
-      <img src="${product.Image}" alt="Image of ${product.Name}" />
+    return `<li class="product-card">
+      <a href="/product_pages/index.html?product=${product.Id}">
+      <img
+        src="${product.Images.PrimaryMedium}"
+        alt="Image of ${product.Name}"
+      />
       <h3 class="card__brand">${product.Brand.Name}</h3>
       <h2 class="card__name">${product.NameWithoutBrand}</h2>
       
@@ -35,8 +39,9 @@ function getSelectedTents(products) {
 // Main function to display the product list
 export default async function productList(selector, category) {
   const el = document.querySelector(selector);
-  let products = await getData(category);
+  let products = await getProductsByCategory(category);
   products = applyDiscounts(products); // Ensure discounts are applied
   const selectedTents = getSelectedTents(products);
   renderListWithTemplate(productCardTemplate, el, selectedTents);
+  document.querySelector(".title").innerHTML = category;
 }

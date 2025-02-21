@@ -16,28 +16,35 @@ export async function loadProductDetails(productId) {
     // This ensures that addProductToCart is only executed when the button is clicked
 }
 
-// Render product details dynamically
-export function renderProductDetails() {
-  document.querySelector("#productName").innerText = product.Brand.Name;
-  document.querySelector("#productNameWithoutBrand").innerText = product.NameWithoutBrand;
-  document.querySelector("#productImage").src = product.Image;
-  document.querySelector("#productImage").alt = product.Name;
-
-  // Final Price (Red & Bold)
-  const priceContainer = document.querySelector("#productFinalPrice");
-  priceContainer.innerHTML = `<span class="final-price">$${product.FinalPrice.toFixed(2)}</span>`;
-
-  // Display SALE Badge & List Price if applicable
-  if (product.ListPrice !== product.FinalPrice) {
-      document.querySelector("#saleBadge").style.display = "inline-block";
-      document.querySelector("#productListPrice").style.display = "block";
-      document.querySelector("#productListPrice").innerHTML = `<s>$${product.ListPrice.toFixed(2)}</s>`;
-  }
-}
-
 // Add product to cart
 export function addProductToCart() {
   let cart = getLocalStorage("so-cart") || [];
   cart.push(product);
   setLocalStorage("so-cart", cart);
+}
+
+export function renderProductDetails() {
+    document.querySelector("#productName").innerText = product.Brand.Name;
+    document.querySelector("#productNameWithoutBrand").innerText =
+    product.NameWithoutBrand;
+    document.querySelector("#productImage").src = product.Images.PrimaryLarge;
+    document.querySelector("#productImage").alt = product.Name;
+    document.querySelector("#productFinalPrice").innerText = product.FinalPrice;
+
+    // Final Price (Red & Bold)
+    const priceContainer = document.querySelector("#productFinalPrice");
+    priceContainer.innerHTML = `<span class="final-price">$${product.FinalPrice.toFixed(2)}</span>`;
+
+    // Display SALE Badge & List Price if applicable
+  if (product.ListPrice !== product.FinalPrice) {
+    document.querySelector("#saleBadge").style.display = "inline-block";
+    document.querySelector("#productListPrice").style.display = "block";
+    document.querySelector("#productListPrice").innerHTML = `<s>$${product.ListPrice.toFixed(2)}</s>`;
+}
+
+    document.querySelector("#productColorName").innerText =
+    product.Colors[0].ColorName;
+    document.querySelector("#productDescriptionHtmlSimple").innerHTML =
+    product.DescriptionHtmlSimple;
+    document.querySelector("#addToCart").dataset.id = product.Id;
 }
