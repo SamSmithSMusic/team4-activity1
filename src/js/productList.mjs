@@ -1,6 +1,6 @@
 // Import necessary functions from other files
 
-import { getProductsByCategory } from "./productData.mjs";
+import { getProductsByCategory } from "./externalServices.mjs";
 import { renderListWithTemplate, applyDiscounts } from "./utils.mjs";
 
 function productCardTemplate(product) {
@@ -27,21 +27,25 @@ function productCardTemplate(product) {
   </li>`;
 }
 
-// Filtering Function
-// function getSelectedTents(products) {
-//     const allowedIds = ["880RR", "985RF", "985PR", "344YJ"];
-
-//     return products
-//         .map(product => allowedIds.includes(product.Id) ? product : null) // Keep only selected tents
-//         .filter(product => product !== null); // Remove null values
-// }
-
 // Main function to display the product list
 export default async function productList(selector, category) {
+  // Find the main element for the product list
   const el = document.querySelector(selector);
+  if (!el) {
+    return; // Exit if the main element is not found
+  }
+
+  // Fetch and process products
   let products = await getProductsByCategory(category);
   products = applyDiscounts(products); // Ensure discounts are applied
-  // const selectedTents = getSelectedTents(products);
+
+  // Render the product list
   renderListWithTemplate(productCardTemplate, el, products);
-  document.querySelector(".title").innerHTML = category;
+
+  // Update the title, if the element exists
+  const titleElement = document.querySelector(".title");
+  if (titleElement) {
+    titleElement.textContent = category; // Using textContent for better security
+  }
+  // document.querySelector(".title").innerHTML = category;
 }

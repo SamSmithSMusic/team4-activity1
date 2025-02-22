@@ -37,6 +37,10 @@ export function renderListWithTemplate(
   position = "afterbegin",
   clear = true
 ) {
+  if (!parentElement) {
+    return; // Exit the function if parentElement is null or undefined
+  }
+
   if (clear) {
     parentElement.innerHTML = "";
   }
