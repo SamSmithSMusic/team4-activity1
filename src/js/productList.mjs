@@ -28,20 +28,20 @@ function productCardTemplate(product) {
 }
 
 // Filtering Function
-function getSelectedTents(products) {
-    const allowedIds = ["880RR", "985RF", "985PR", "344YJ"];
+// function getSelectedTents(products) {
+//     const allowedIds = ["880RR", "985RF", "985PR", "344YJ"];
 
-    return products
-        .map(product => allowedIds.includes(product.Id) ? product : null) // Keep only selected tents
-        .filter(product => product !== null); // Remove null values
-}
+//     return products
+//         .map(product => allowedIds.includes(product.Id) ? product : null) // Keep only selected tents
+//         .filter(product => product !== null); // Remove null values
+// }
 
 // Main function to display the product list
 export default async function productList(selector, category) {
   const el = document.querySelector(selector);
   let products = await getProductsByCategory(category);
   products = applyDiscounts(products); // Ensure discounts are applied
-  const selectedTents = getSelectedTents(products);
-  renderListWithTemplate(productCardTemplate, el, selectedTents);
+  // const selectedTents = getSelectedTents(products);
+  renderListWithTemplate(productCardTemplate, el, products);
   document.querySelector(".title").innerHTML = category;
 }
