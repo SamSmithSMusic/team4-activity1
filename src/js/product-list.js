@@ -1,8 +1,8 @@
 /* eslint-disable no-debugger */
 import productList from "./productList.mjs";
-import {getParam} from "./utils.mjs";
+import {getParam, loadHeaderFooter} from "./utils.mjs";
 
-//loadHeaderFooter(); ADD WHEN READY
+loadHeaderFooter();
 
 const category = getParam("category");
 productList(".product-list", category);
