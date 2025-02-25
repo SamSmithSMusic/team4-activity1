@@ -21,8 +21,7 @@ document.querySelector("#zip").addEventListener("blur", () => {
   if (allFilled) {
     checkoutProcess.calculateOrdertotal();
   } else {
-    throw new Error("Please fill in all shipping fields to display totals.");
-  }
+    document.querySelector("#checkout-error").innerText = "Please complete all shipping fields.";  }
 });
 
 // Handle form submission
@@ -32,7 +31,8 @@ document.forms["checkout"].addEventListener("submit", async (e) => {
   try {
     await checkoutProcess.checkout(e.target);
   } catch (error) {
-    throw new Error(`Checkout Failed: ${error.message}`);
+    document.querySelector("#checkout-error").innerText = `Checkout Failed: ${error.message}`;
+    throw error; // Keeps original error details
   }
 
   // Clear the form after submission

@@ -116,7 +116,7 @@ const checkoutProcess = {
         try {
             // console.log("Processing checkout...");
 
-            // COnvert from data into JSON format
+            // Convert from data into JSON format
             const json = formDataToJSON(form);
             // console.log("Checkout Payload:", json);     //Log form data before sending
 
@@ -151,8 +151,12 @@ const checkoutProcess = {
             return response;
         
         } catch (error) {
-            // console.error("Checkout Failed:", error);
-            document.querySelector("#checkout-error").innerText = `Error: ${error.message}`;
+            const errorElement = document.querySelector("#checkout-error");
+
+            if (errorElement) {
+                errorElement.innerText = `Error: ${error.message}`;
+            }
+
             throw error; // Re-throw the error for further debugging
         }
     }
