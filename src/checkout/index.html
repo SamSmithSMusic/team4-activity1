@@ -54,17 +54,17 @@
             <legend>Shipping</legend>
             <div class="checkout__name">
               <label for="fname">First Name</label>
-              <input name="fname" required />
+              <input name="fname" id="fname" required />
               <label for="lname">Last Name</label>
-              <input name="lname" required />
+              <input name="lname" id="lname" required />
             </div>
             <div class="checkout__address">
               <label for="street">Street</label>
-              <input name="street" required />
+              <input name="street" id="street" required />
               <label for="city">City</label>
-              <input name="city" required />
+              <input name="city" id="city" required />
               <label for="state">State</label>
-              <input name="state" required />
+              <input name="state" name="state" id="state" required />
               <label for="zip">Zip</label>
               <input
                 name="zip"
@@ -80,6 +80,7 @@
             <label for="cardNumber">Card number</label>
             <input
               name="cardNumber"
+              id="cardNumber"
               required
               pattern="^[0-9]{13,16}$"
               placeholder="Enter 1234123412341234 for the card number"
@@ -88,14 +89,16 @@
             <label for="expiration">Expiration</label>
             <input
               name="expiration"
+              id="expiration"
               required
-              pattern="^(0[1-9]|1[0-2])\/\d{2}$"
-              placeholder="mm/yy"
+              pattern="^(0[1-9]|1[0-2])\/\d{4}$"
+              placeholder="mm/yyyy"
               title="Enter a valid expiration date in mm/yyyy format"
             />
             <label for="code">Security Code</label>
             <input
               name="code"
+              id="code"
               required
               pattern="^\d{3,4}$"
               placeholder="123"

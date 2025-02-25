@@ -43,9 +43,9 @@ const checkoutProcess = {
     init: function (key, outputSelector) {
         this.key = key;
         this.outputSelector = outputSelector;
-        this.list = getLocalStorage(key);   // Retrieve cart items from LocalStorage
-        this.calculateItemSummary();        // Calculate and display item total
-        // this.calculateOrdertotal();         // Calculate and display shipping, tax, and total immediately
+        this.list = getLocalStorage(key) || [];     // Retrieve cart items from LocalStorage
+        this.calculateItemSummary();                // Calculate and display item total
+        // this.calculateOrdertotal();              // Calculate and display shipping, tax, and total immediately
     },
 
     // Calculates the total cost of items in the cart and updates the summary section
@@ -79,6 +79,9 @@ const checkoutProcess = {
 
     // Calculate tax, shipping, and final order total
     calculateOrdertotal: function () {
+        // Prevents unnecessary calculations on an empty cart
+        if (this.list.length === 0) return;
+
         // Shipping cost: $10 for the first item, $2 for each additional item
         this.shipping = 10 + (this.list.length - 1) * 2;
 
@@ -110,34 +113,48 @@ const checkoutProcess = {
 
     // Handles Form submission, prepares order data, and sends it to the server
     checkout: async function (form) {
-        // Convert form data into JSON format
-        const json = formDataToJSON(form);
+        try {
+            // console.log("Processing checkout...");
 
-        // Ensure all required form fields exist before making the request
-        if (
-            !json.fname || !json.lname || 
-            !json.street || !json.city || !json.state || !json.zip ||
-            !json.cardNumber || !json.expiration || !json.code
-        ) {
-            document.querySelector("#checkout-error").innerText = "Please fill in all required fields before submitting.";
-            return;
+            // COnvert from data into JSON format
+            const json = formDataToJSON(form);
+            // console.log("Checkout Payload:", json);     //Log form data before sending
+
+            // Validate form inputs
+            if (!json.fname || !json.lname || !json.street || !json.city || !json.state || !json.zip || !json.cardNumber || !json.expiration || !json.code) {
+                throw new Error("Please fill in all required fields before submitting.");
+            }        
+        
+            // Ensure cart is not empty before proceeding
+            if (!this.list || this.list.length === 0) {
+                throw new Error("Cart is empty. Add items before proceeding.");
+            }
+
+            // Add order details to the JSON object
+            json.orderDate = new Date();
+            json.orderTotal = this.orderTotal;
+            json.tax = this.tax;
+            json.shipping = this.shipping;
+            json.items = packageItems(this.list);
+
+            // console.log("Final Checkout Data Sent:", json); // Log final formatted data
+
+            // Send order data to the server
+            const response = await checkout(json);
+            // console.log("Checkout Response:", response); // Log server response
+
+            // Clear the cart and reset the form after successful checkout
+            localStorage.removeItem("so-cart");
+            form.reset();
+            this.calculateItemSummary(); // Update UI to reflect an empty cart
+
+            return response;
+        
+        } catch (error) {
+            // console.error("Checkout Failed:", error);
+            document.querySelector("#checkout-error").innerText = `Error: ${error.message}`;
+            throw error; // Re-throw the error for further debugging
         }
-
-        // Ensure cart is not empty
-        if (!this.list || this.list.length === 0) {
-            document.querySelector("#checkout-error").innerText = "Cart is empty. Add items before proceeding.";
-            return;
-        }
-
-        // Add additional order details to the JSON object
-        json.orderDate = new Date();
-        json.orderTotal = this.orderTotal;
-        json.tax = this.tax;
-        json.shipping = this.shipping;
-        json.items = packageItems(this.list);
-
-        // Send order data to the server
-        await checkout(json);
     }
 };
 

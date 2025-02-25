@@ -11,19 +11,29 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Calculate totals after entering ZIP code
-document
-  .querySelector("#zip")
-  .addEventListener(
-    "blur",
-    checkoutProcess.calculateOrdertotal.bind(checkoutProcess)
+document.querySelector("#zip").addEventListener("blur", () => {
+  const requiredFields = ["fname", "lname", "street", "city", "state", "zip"];
+  const form = document.forms["checkout"];
+  let allFilled = requiredFields.every(
+    (field) => form[field].value.trim() !== ""
   );
 
+  if (allFilled) {
+    checkoutProcess.calculateOrdertotal();
+  } else {
+    throw new Error("Please fill in all shipping fields to display totals.");
+  }
+});
+
 // Handle form submission
-document.forms["checkout"].addEventListener("submit", (e) => {
+document.forms["checkout"].addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  // e.target would contain our form in this case
-  checkoutProcess.checkout(e.target);
+  try {
+    await checkoutProcess.checkout(e.target);
+  } catch (error) {
+    throw new Error(`Checkout Failed: ${error.message}`);
+  }
 
   // Clear the form after submission
   e.target.reset();
