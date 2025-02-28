@@ -267,6 +267,25 @@ button {
   filter: brightness(95%); /* Darken the button on hover */
 }
 
+#checkout-error {
+  box-sizing: border-box;
+  display: none;
+  position: relative;
+  align-items: center;
+  background-color: rgba(255, 93, 93, 0.336);
+  border: 1px rgba(255, 51, 51, 0.863) solid;
+  margin: 1rem 0rem 1rem 0rem;
+}
+
+#checkout-error>b{
+  position: absolute;
+  right: 15px;
+  font-size: 25px;
+}
+#checkout-error>p{
+  padding-left: 10px;
+}
+
 /* List Price styling (original price with strikethrough) */
 .product-card__list-price {
   text-decoration: line-through;
@@ -482,6 +501,10 @@ button {
   border-radius: 5px;
 }
 
+fieldset.checkout-summary {
+  margin-bottom: 0;
+}
+
 .checkout-summary ul {
   list-style: none;
   padding: 0;
@@ -514,6 +537,8 @@ button {
 
 button#checkoutSubmit {
   width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
   padding: 10px;
   background: #ffce24;
   color: #000;

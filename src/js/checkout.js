@@ -28,12 +28,12 @@ document.querySelector("#zip").addEventListener("blur", () => {
 document.forms["checkout"].addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  try {
-    await checkoutProcess.checkout(e.target);
-  } catch (error) {
-    document.querySelector("#checkout-error").innerText = `Checkout Failed: ${error.message}`;
-    throw error; // Keeps original error details
-  }
+  // try {
+  await checkoutProcess.checkout(e.target);
+  // } catch (error) {
+  //   // document.querySelector("#checkout-error").innerText = `Checkout Failed: ${error.message}`;
+  //   throw error; // Keeps original error details
+  // }
 
   // Clear the form after submission
   e.target.reset();

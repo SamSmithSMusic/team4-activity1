@@ -1,5 +1,6 @@
 import { getLocalStorage } from "./utils.mjs";
 import { checkout } from "./externalServices.mjs";
+import { doc } from "prettier";
 
 // Converts a form element's input fields into a JSON object
 export function formDataToJSON(formElement) {
@@ -111,9 +112,14 @@ const checkoutProcess = {
         orderTotal.innerText = "$" + this.orderTotal;
     },
 
+    
+    
+
     // Handles Form submission, prepares order data, and sends it to the server
     checkout: async function (form) {
+        const errorElement = document.querySelector("#checkout-error");
         try {
+            errorElement.innerText = "";
             // console.log("Processing checkout...");
 
             // Convert from data into JSON format
@@ -146,16 +152,40 @@ const checkoutProcess = {
             // Clear the cart and reset the form after successful checkout
             localStorage.removeItem("so-cart");
             form.reset();
+
+            window.location.href = "success.html";
+
             this.calculateItemSummary(); // Update UI to reflect an empty cart
 
             return response;
         
         } catch (error) {
-            const errorElement = document.querySelector("#checkout-error");
+            
+            let message = error.message;
 
-            if (errorElement) {
-                errorElement.innerText = `Error: ${error.message}`;
+            if (message == "Cart is empty. Add items before proceeding.") {
+                message = "Checkout Failed - Cart is Empty"
             }
+
+            if (message.includes("cardNumber")) {
+                message = "Invalid Card Number"
+            }
+
+            // Build error message
+            let p = document.createElement("p");
+            let b = document.createElement("b");
+            
+            b.innerText = "X";
+            p.innerText = message;
+
+            errorElement.append(p);
+            errorElement.append(b);
+
+            errorElement.setAttribute("style","display: flex");
+
+            errorElement.addEventListener("click", () => {
+                errorElement.style.display = "none"
+            });
 
             throw error; // Re-throw the error for further debugging
         }
