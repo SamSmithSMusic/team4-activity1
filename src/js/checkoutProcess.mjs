@@ -1,4 +1,4 @@
-import { getLocalStorage } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage, alertMessage, removeAllAlerts } from "./utils.mjs";
 import { checkout } from "./externalServices.mjs";
 
 // Converts a form element's input fields into a JSON object
@@ -113,53 +113,91 @@ const checkoutProcess = {
 
     // Handles Form submission, prepares order data, and sends it to the server
     checkout: async function (form) {
+        const checkoutError = document.getElementById("checkout-error");
         try {
-            // console.log("Processing checkout...");
-
-            // Convert from data into JSON format
             const json = formDataToJSON(form);
-            // console.log("Checkout Payload:", json);     //Log form data before sending
 
-            // Validate form inputs
-            if (!json.fname || !json.lname || !json.street || !json.city || !json.state || !json.zip || !json.cardNumber || !json.expiration || !json.code) {
-                throw new Error("Please fill in all required fields before submitting.");
-            }        
+            // Reset error messages
+            checkoutError.textContent = "";
+            // expirationError.textContent = "";
+            checkoutError.style.display = "none";
+            // expirationError.style.display = "none";
+
+            let hasError = false; // Track if any errors occur
+      
+            // Get the error message container at the top
+            checkoutError.textContent = ""; // Clear previous errors
         
-            // Ensure cart is not empty before proceeding
-            if (!this.list || this.list.length === 0) {
-                throw new Error("Cart is empty. Add items before proceeding.");
+            // Card Number Validation
+            if (json.cardNumber !== "1234123412341234") {
+                checkoutError.textContent = "Invalid card number. Please enter 1234123412341234.";
+                checkoutError.style.display = "block";
+                hasError = true;
             }
 
-            // Add order details to the JSON object
+            // Expiration Date Validation - must be in mm/yyyy format
+            if (!/^(0[1-9]|1[0-2])\/\d{4}$/.test(json.expiration)) {
+                checkoutError.textContent = "Invalid expiration date.";
+                return;
+            }
+
+            // Extract the month and year from the expiration date
+            const [expMonth, expYear] = json.expiration.split("/").map(Number);
+
+            // Get the current date (current month and year)
+            const currentDate = new Date();
+            const currentMonth = currentDate.getMonth() + 1; // months are 0-based in JavaScript
+            const currentYear = currentDate.getFullYear();
+
+            // Check if the expiration date is less than the current month/year
+            if (expYear < currentYear || (expYear === currentYear && expMonth < currentMonth)) {
+                checkoutError.textContent = "Expiration date is in the past. Please select a valid expiry date.";
+                checkoutError.style.display = "block";
+                return;
+            }
+        
+            if (!this.list.length) {
+                checkoutError.textContent = "Your cart is empty. Add items before proceeding.";
+                checkoutError.style.display = "block";
+                return;
+            }
+
+            if (hasError) return; // Stop processing if errors exist
+        
             json.orderDate = new Date();
             json.orderTotal = this.orderTotal;
             json.tax = this.tax;
             json.shipping = this.shipping;
             json.items = packageItems(this.list);
-
-            // console.log("Final Checkout Data Sent:", json); // Log final formatted data
-
-            // Send order data to the server
+        
             const response = await checkout(json);
-            // console.log("Checkout Response:", response); // Log server response
-
-            // Clear the cart and reset the form after successful checkout
+            console.log("Server Response:", response); // Debugging: Log server response
             localStorage.removeItem("so-cart");
             form.reset();
-            this.calculateItemSummary(); // Update UI to reflect an empty cart
-
-            return response;
+            this.calculateItemSummary();
         
+            setTimeout(() => {
+                window.location.href = "success.html";
+            }, 100);
         } catch (error) {
-            const errorElement = document.querySelector("#checkout-error");
-
-            if (errorElement) {
-                errorElement.innerText = `Error: ${error.message}`;
+            // Remove any previous alert messages
+            removeAllAlerts();
+        
+            // Display error message
+            if (typeof error.message === "string") {
+                alertMessage(error.message);
+            } else if (Array.isArray(error.message)) {
+                error.message.forEach(msg => alertMessage(msg)); // Handle array errors
+            } else {
+                alertMessage("An unexpected error occurred.");
             }
-
-            throw error; // Re-throw the error for further debugging
+        
+            console.error(error);
         }
-    }
+      }
+
+    
+    
 };
 
 export default checkoutProcess;

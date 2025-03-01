@@ -527,6 +527,39 @@ button#checkoutSubmit:hover {
   filter: brightness(95%); /* Darken the button on hover */
 }
 
+/* Checkout Form Error Style */
+
+#checkout-error,
+#expiration-error {
+  background-color: #d9534f; /* Red error background */
+  color: white; /* White text */
+  font-size: 0.8em; /* Responsive font size */
+  padding: 10px;
+  border-radius: 5px; /* Rounded corners */
+  width: 90%; /* Responsive width */
+  max-width: 600px; /* Limit max width */
+  margin: 10px auto; /* Centered with spacing */
+  text-align: center;
+  display: none; /* Hidden by default */
+}
+
+.success-message {
+  text-align: center;
+  padding: 2rem;
+  max-width: 600px;
+  margin: auto;
+}
+
+.success-message h2 {
+  font-size: 1.5rem;
+  color: var(--secondary-color);
+}
+
+.success-message p {
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}
+
 @media screen and (min-width: 500px) {
   body {
     max-width: 1080px;
