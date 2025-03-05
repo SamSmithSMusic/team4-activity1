@@ -101,11 +101,25 @@ button {
 }
 /* End utility classes */
 
+/* Header Superscript Number Style  */
+#backpack-count {
+  position: absolute;
+  top: .5em; /* Adjust as needed */
+  right: -0.5em; /* Adjust as needed */
+  background: rgb(224, 33, 33);
+  color: white;
+  border-radius: 50%;
+  padding: 0.2em 0.4em;
+  font-size: 0.75em;
+  font-weight: bold;
+}
+
 /* Cart icon styles */
 .cart {
   padding-top: 1em;
   position: relative;
   text-align: center;
+  display: inline-block;
 }
 
 .cart svg {
