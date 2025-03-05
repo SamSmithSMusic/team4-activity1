@@ -104,8 +104,8 @@ button {
 /* Header Superscript Number Style  */
 #backpack-count {
   position: absolute;
-  top: .5em; /* Adjust as needed */
-  right: -0.5em; /* Adjust as needed */
+  top: 0.5em; 
+  right: -0.5em; 
   background: rgb(224, 33, 33);
   color: white;
   border-radius: 50%;
