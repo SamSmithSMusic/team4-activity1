@@ -85,14 +85,41 @@ function loadTemplate(path) {
   };
 }
 
+// Function to update the cart count in the header
+async function updateCartCount() {
+  // Get items from local storage
+  const cartItems = getLocalStorage("so-cart") || [];
+  console.log("Cart Items:", cartItems);
+
+  // Calculate the number of items in the cart
+  const itemCount = cartItems.length;
+  console.log("Item Count:", itemCount);
+
+  // Get the cart count span in the header
+  const cartCountElement = document.querySelector(".cart #backpack-count");
+  console.log("Cart Count Element:", cartCountElement); // Debugging
+
+  // Update the cart count in the header
+  if (cartCountElement) {
+    cartCountElement.textContent = itemCount;
+  } else {
+    console.warn("Cart count element not found in header."); // Debugging
+  }
+}
+
 // loads the header and footer templates using loadTemplate, then renders them
 export async function loadHeaderFooter() {
   const headerTemplateFn = loadTemplate("/partials/header.html");
   const footerTemplateFn = loadTemplate("/partials/footer.html");
   const headerEl = document.querySelector("#main-header");
   const footerEl = document.querySelector("#main-footer");
-  renderWithTemplate(headerTemplateFn, headerEl);
-  renderWithTemplate(footerTemplateFn, footerEl);
+
+  // Render the header and footer
+  await renderWithTemplate(headerTemplateFn, headerEl);
+  await renderWithTemplate(footerTemplateFn, footerEl);
+
+  // Update the cart count after the header is loaded
+  setTimeout(updateCartCount, 100); // Wait for a slight delay to ensure rendering completes
 }
 
 // Apply discounts dynamically based on product conditions
